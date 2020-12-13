@@ -4,21 +4,15 @@ import { storeQuizSettings } from "../../store/triviaActions";
 import { RouteComponentProps } from "@reach/router";
 import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
-
+import "./StartQuiz.scss";
 interface TriviaIProps extends RouteComponentProps {}
 
 function Trivia(props: TriviaIProps) {
+  const dispatch = useDispatch();
+
   const [quizSettings, setQuizSettings] = useState(
     useSelector((state: any) => state.trivia.quizSettings)
   );
-  const dispatch = useDispatch();
-  console.log("quizSettings", quizSettings);
-
-  // // Check if trivia data is downloaded to display Start Quiz button
-  // const isTriviaData = useSelector(
-  //   (state: any) =>
-  //     (state.trivia.questions && state.trivia.questions.length > 0) || false
-  // );
 
   const startQuiz = () => {
     dispatch(storeQuizSettings(quizSettings));
@@ -26,9 +20,9 @@ function Trivia(props: TriviaIProps) {
   };
 
   return (
-    <div>
+    <div className="StartQuiz">
       <SelectInput
-        placeholder="Select difficulty..."
+        placeholder="Select difficulty ..."
         options={[
           {
             value: "easy",
@@ -51,7 +45,7 @@ function Trivia(props: TriviaIProps) {
         }
       />
       <SelectInput
-        placeholder="Select type..."
+        placeholder="Select type ..."
         options={[
           {
             value: "boolean",
@@ -71,8 +65,12 @@ function Trivia(props: TriviaIProps) {
       />
 
       <SelectInput
-        placeholder="Select amount..."
+        placeholder="Select amount ..."
         options={[
+          {
+            value: "3",
+            label: "3",
+          },
           {
             value: "10",
             label: "10",
@@ -107,9 +105,3 @@ function Trivia(props: TriviaIProps) {
 }
 
 export default Trivia;
-//   {!isTriviaData && <div>Please wait, loading.</div>}
-//   {isTriviaData && (
-//     <Button onClick={() => startQuiz()}>
-//       Start Quiz
-//     </Button>
-//   )}

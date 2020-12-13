@@ -1,3 +1,5 @@
+@import "src/assets/styles/sass/utils";
+
 .results {
   display: flex;
   justify-content: center;
@@ -8,5 +10,17 @@
     font-weight: 300;
     margin: 0 0 64px 0;
     font-size: 48px;
+  }
+
+  .result {
+    // color: blue;
+  }
+
+  .correct {
+    color: $success-color;
+  }
+
+  .incorrect {
+    color: $danger-color;
   }
 }

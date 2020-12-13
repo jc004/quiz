@@ -13,7 +13,12 @@ interface Props {
 }
 
 const SelectInput = ({ placeholder, options, onChange }: Props) => (
-  <Select placeholder={placeholder} options={options} onChange={onChange} />
+  <Select
+    className="SelectInput"
+    placeholder={placeholder}
+    options={options}
+    onChange={onChange}
+  />
 );
 
 export default SelectInput;

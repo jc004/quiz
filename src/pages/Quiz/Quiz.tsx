@@ -7,14 +7,23 @@ import { generateQuestions } from "../../store/triviaActions";
 import "./Quiz.scss";
 
 interface QuizIProps extends RouteComponentProps {}
+interface Question {
+  selectedAnswer: string | undefined;
+}
 
 function Quiz(props: QuizIProps) {
   const dispatch = useDispatch();
   const quizSettings = useSelector((state: any) => state.trivia.quizSettings);
   const questions: [] = useSelector((state: any) => state.trivia.questions);
-  const answers: [] = useSelector((state: any) => state.trivia.answers).filter(
-    (answer: string) => answer !== null
+  // const answers: [] = useSelector((state: any) => state.trivia.answers).filter(
+  //   (answer: string) => answer !== null || answer !== undefined
+  // );
+  const selectedAnswers = questions.filter(
+    (question: { selectedAnswer: string | undefined }) =>
+      question.selectedAnswer !== undefined
   );
+  console.log("selectedAnswers", selectedAnswers);
+
   const loading: boolean = useSelector((state: any) => state.trivia.loading);
   const error: boolean = useSelector((state: any) => state.trivia.error);
   console.log("questions", questions);
@@ -30,14 +39,14 @@ function Quiz(props: QuizIProps) {
   }, [quizSettings]);
 
   // Check if all questions are answered to display Complete button
-  const hasUnansweredQuestions = answers.length !== questions.length;
+  const hasUnansweredQuestions = selectedAnswers.length !== questions.length;
 
   if (error) {
-    return <p>Sorry something went wrong</p>;
+    return <h3>Sorry something went wrong</h3>;
   }
 
   if (loading && !error) {
-    return <p>Loading questions...</p>;
+    return <h3>Loading questions...</h3>;
   }
 
   return (

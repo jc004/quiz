@@ -9,7 +9,6 @@ interface TriviaReducerState {
   loading: boolean;
   questions: any[];
   error: string | null;
-  answers: string[];
   quizSettings: quizSettingsState;
 }
 
@@ -17,7 +16,6 @@ const initialState: TriviaReducerState = {
   loading: false,
   questions: [],
   error: null,
-  answers: [],
   quizSettings: {
     amount: "10",
     difficulty: "medium",
@@ -50,11 +48,17 @@ const triviaReducer = function (state = initialState, action: any) {
         error: action.error,
       };
     case QUESTION_ANSWER:
-      const updatedAnswers = [...state.answers];
-      updatedAnswers[action.questionIndex] = action.answer;
+      // const updatedAnswers = [...state.answers];
+      // updatedAnswers[action.questionIndex] = action.answer;
+      const updatedQuestions = [...state.questions];
+      updatedQuestions[action.questionIndex] = {
+        ...state.questions[action.questionIndex],
+        selectedAnswer: action.answer,
+      };
       return {
         ...state,
-        answers: updatedAnswers,
+        questions: updatedQuestions,
+        // answers: updatedAnswers,
       };
   }
   return state;

@@ -9,37 +9,46 @@ interface QuestionIProps extends RouteComponentProps {
 }
 
 function Question(props: QuestionIProps) {
+  const dispatch = useDispatch();
   const [answers, setAnswers] = useState<string[]>([]);
 
   const question = useSelector(
     (state: any) => state.trivia.questions[props.questionIndex]
   );
-  const currentAnswer = useSelector((state: any) => {
-    return state.trivia.answers[props.questionIndex];
-  });
-  const dispatch = useDispatch();
 
   useEffect(() => {
+    let answers = [...question.incorrect_answers];
     // Add correct answer to incorrect answers at random position
-    const answers = [...question.incorrect_answers];
-    answers.splice(
-      Math.floor(Math.random() * question.incorrect_answers.length),
-      0,
-      question.correct_answer
-    );
+    if (question.type === "multiple") {
+      answers.splice(
+        Math.floor(Math.random() * question.incorrect_answers.length),
+        0,
+        question.correct_answer
+      );
+    }
+
+    // if True / False, place True first
+    if (question.type === "boolean") {
+      question.correct_answer === "True"
+        ? answers.unshift(question.correct_answer)
+        : answers.push(question.correct_answer);
+    }
+
     setAnswers(answers);
-  }, [question.correct_answer, question.incorrect_answers]);
+  }, [question.correct_answer, question.incorrect_answers, question.type]);
 
   const onChange = (e: any) => {
     dispatch(answerQuestion(props.questionIndex, e.target.value));
   };
 
+  const currentAnswer = question.selectedAnswer;
+
   return (
     <div className="question">
       <h3>{decodeURIComponent(question.question)}</h3>
-      {answers?.map((a, i) => {
+      {answers?.map((a) => {
         return (
-          <label key={i}>
+          <label key={a}>
             <input
               type="radio"
               name={`question-${props.questionIndex}`}
