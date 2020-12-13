@@ -4,8 +4,8 @@ import "./Button.scss";
 
 interface ButtonIProps {
   children?: React.ReactNode;
-  type?: any;
-  onClick?: () => void;
+  type?: "submit" | "reset" | "button";
+  onClick: () => void;
   disabled?: boolean;
 }
 

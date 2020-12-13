@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { storeQuizSettings } from "../../store/triviaActions";
 import { RouteComponentProps } from "@reach/router";
 import Button from "../../components/Button/Button";
 import SelectInput from "../../components/SelectInput/SelectInput";
-import { generateQuestions } from "../../store/triviaActions";
-
-const initialQuizSettingsState = {
-  amount: "10",
-  difficulty: "medium",
-  type: "multiple",
-};
 
 interface TriviaIProps extends RouteComponentProps {}
 
 function Trivia(props: TriviaIProps) {
-  const [quizSettings, setQuizSettings] = useState(initialQuizSettingsState);
+  const [quizSettings, setQuizSettings] = useState(
+    useSelector((state: any) => state.trivia.quizSettings)
+  );
   const dispatch = useDispatch();
+  console.log("quizSettings", quizSettings);
 
   // // Check if trivia data is downloaded to display Start Quiz button
   // const isTriviaData = useSelector(
@@ -25,13 +21,7 @@ function Trivia(props: TriviaIProps) {
   // );
 
   const startQuiz = () => {
-    const { amount, difficulty, type } = quizSettings;
-    // get trivia
-    dispatch(
-      generateQuestions(
-        `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=${type}&encode=url3986`
-      )
-    );
+    dispatch(storeQuizSettings(quizSettings));
     props.navigate && props.navigate("/quiz");
   };
 
@@ -96,8 +86,8 @@ function Trivia(props: TriviaIProps) {
             label: "30",
           },
           {
-            value: "30",
-            label: "30",
+            value: "40",
+            label: "40",
           },
           {
             value: "50",

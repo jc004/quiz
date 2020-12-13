@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 export const TRIVIA_GENERATE = {
-  CONFIGURE: "TRIVIA_GENERATE_CONFIGURE",
+  SETTINGS: "TRIVIA_GENERATE_SETTINGS",
   BEGIN: "TRIVIA_GENERATE_BEGIN",
   SUCCESS: "TRIVIA_GENERATE_SUCCESS",
   ERROR: "TRIVIA_GENERATE_ERROR",
@@ -32,6 +32,24 @@ export const answerQuestion = (questionIndex: number, answer: string) => {
       type: QUESTION_ANSWER,
       answer: answer,
       questionIndex: questionIndex,
+    });
+  };
+};
+
+export const storeQuizSettings = (quizSettings: {
+  amount: string;
+  difficulty: string;
+  type: string;
+}) => {
+  const { amount, difficulty, type } = quizSettings;
+  return (dispatch: any) => {
+    dispatch({
+      type: TRIVIA_GENERATE.SETTINGS,
+      payload: {
+        amount: amount,
+        difficulty: difficulty,
+        type: type,
+      },
     });
   };
 };

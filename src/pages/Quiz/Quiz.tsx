@@ -1,21 +1,44 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "@reach/router";
 import Question from "../../components/Question/Question";
 import Button from "../../components/Button/Button";
+import { generateQuestions } from "../../store/triviaActions";
 import "./Quiz.scss";
 
 interface QuizIProps extends RouteComponentProps {}
 
 function Quiz(props: QuizIProps) {
+  const dispatch = useDispatch();
+  const quizSettings = useSelector((state: any) => state.trivia.quizSettings);
   const questions: [] = useSelector((state: any) => state.trivia.questions);
+  const answers: [] = useSelector((state: any) => state.trivia.answers).filter(
+    (answer: string) => answer !== null
+  );
+  const loading: boolean = useSelector((state: any) => state.trivia.loading);
+  const error: boolean = useSelector((state: any) => state.trivia.error);
+  console.log("questions", questions);
+
+  useEffect(() => {
+    const { amount, difficulty, type } = quizSettings;
+    dispatch(
+      generateQuestions(
+        `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=${type}&encode=url3986`
+      )
+    );
+    // eslint-disable-next-line
+  }, [quizSettings]);
 
   // Check if all questions are answered to display Complete button
-  const allQuestionsAnswered = useSelector(
-    (state: any) =>
-      state.trivia.answers.length === state.trivia.questions.length &&
-      !state.trivia.answers.includes(null)
-  );
+  const hasUnansweredQuestions = answers.length !== questions.length;
+
+  if (error) {
+    return <p>Sorry something went wrong</p>;
+  }
+
+  if (loading && !error) {
+    return <p>Loading questions...</p>;
+  }
 
   return (
     <div>
@@ -23,11 +46,17 @@ function Quiz(props: QuizIProps) {
         return <Question questionIndex={i} key={i} />;
       })}
       <div className="complete">
-        {allQuestionsAnswered && (
-          <Button onClick={() => props.navigate && props.navigate("/results")}>
-            Complete Quiz
-          </Button>
+        {hasUnansweredQuestions ? (
+          <p>Please answer ALL questions</p>
+        ) : (
+          <p>Please submit your answers...</p>
         )}
+        <Button
+          disabled={hasUnansweredQuestions}
+          onClick={() => props.navigate && props.navigate("/results")}
+        >
+          Complete Quiz
+        </Button>
       </div>
     </div>
   );
