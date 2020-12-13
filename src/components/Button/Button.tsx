@@ -5,15 +5,21 @@ import "./Button.scss";
 interface ButtonIProps {
   children?: React.ReactNode;
   type?: any;
-  onClick?: any;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 function Button(props: ButtonIProps) {
-  const { children, onClick, type } = props;
+  const { children, onClick, type = "button", disabled = false } = props;
   const classProps = classNames("button");
 
   return (
-    <button className={classProps} type={type} onClick={onClick}>
+    <button
+      className={classProps}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

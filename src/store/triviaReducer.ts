@@ -17,18 +17,29 @@ const initialState: TriviaReducerState = {
 const triviaReducer = function (state = initialState, action: any) {
   switch (action.type) {
     case TRIVIA_GENERATE.BEGIN:
-      state.loading = true;
-      break;
+      return {
+        ...state,
+        loading: true,
+      };
     case TRIVIA_GENERATE.SUCCESS:
-      state.loading = false;
-      state.questions = action.payload;
-      break;
+      return {
+        ...state,
+        loading: false,
+        questions: action.payload,
+      };
     case TRIVIA_GENERATE.ERROR:
-      state.loading = false;
-      state.error = action.error;
-      break;
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
     case QUESTION_ANSWER:
-      state.answers[action.questionIndex] = action.answer;
+      const updatedAnswers = [...state.answers];
+      updatedAnswers[action.questionIndex] = action.answer;
+      return {
+        ...state,
+        answers: updatedAnswers,
+      };
   }
   return state;
 };

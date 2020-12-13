@@ -1,10 +1,12 @@
 import axios from "axios";
-import mockData from "./db.json";
 
-export const GET = (query: string) =>
+export const GET = (query: string, callBack: (response: unknown) => void) =>
   axios
-    .get(``)
-    .then(() => mockData)
+    .get(query)
+    .then((response) => callBack(response))
     .catch((err) => err);
 
-export const apiGenerateQuestions = () => GET("amount=10");
+export const apiGenerateQuestions = (
+  queryString: string,
+  callBack: () => void
+) => GET(queryString, callBack);
