@@ -1,15 +1,25 @@
 import { TRIVIA_GENERATE, QUESTION_ANSWER } from "./triviaActions";
 
-interface quizSettingsState {
+interface QuizSettingsState {
   amount: string;
   difficulty: string;
   type: string;
 }
+
+export interface QuestionInterface {
+  selectedAnswer?: string;
+  category: string;
+  type: string;
+  difficulty: string;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+}
 interface TriviaReducerState {
   loading: boolean;
-  questions: any[];
+  questions: QuestionInterface[];
   error: string | null;
-  quizSettings: quizSettingsState;
+  quizSettings: QuizSettingsState;
 }
 
 const initialState: TriviaReducerState = {
@@ -33,6 +43,7 @@ const triviaReducer = function (state = initialState, action: any) {
     case TRIVIA_GENERATE.BEGIN:
       return {
         ...state,
+        error: null,
         loading: true,
       };
     case TRIVIA_GENERATE.SUCCESS:
@@ -48,8 +59,6 @@ const triviaReducer = function (state = initialState, action: any) {
         error: action.error,
       };
     case QUESTION_ANSWER:
-      // const updatedAnswers = [...state.answers];
-      // updatedAnswers[action.questionIndex] = action.answer;
       const updatedQuestions = [...state.questions];
       updatedQuestions[action.questionIndex] = {
         ...state.questions[action.questionIndex],
@@ -58,7 +67,6 @@ const triviaReducer = function (state = initialState, action: any) {
       return {
         ...state,
         questions: updatedQuestions,
-        // answers: updatedAnswers,
       };
   }
   return state;

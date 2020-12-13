@@ -32,9 +32,9 @@ function Results(props: ResultsIProps) {
   }, [answers, props]);
 
   return (
-    <div className="results">
+    <div className="Results">
       <h1>Thank You!</h1>
-      <p>
+      <p className="Results-score">
         You answered <strong>{correctAnswers.length}</strong> out of{" "}
         <strong>{questions.length}</strong> questions correctly.
       </p>
@@ -42,17 +42,14 @@ function Results(props: ResultsIProps) {
         const { correct_answer, selectedAnswer, question } = questionObj;
         const isCorrectAnswer = selectedAnswer === correct_answer;
         return (
-          <div className="result" key={question}>
-            <p>
-              <strong>Q: </strong>
-              {decodeURIComponent(question)}
-            </p>
+          <div className="Results-result" key={question}>
+            <p className="question">{decodeURIComponent(question)}</p>
             <p className={isCorrectAnswer ? "correct" : "incorrect"}>
-              <strong>A: </strong>
+              <strong>Your Answer: </strong>
               {decodeURIComponent(selectedAnswer)}
             </p>
             {!isCorrectAnswer && (
-              <p>
+              <p className="correct">
                 <strong>Correct Answer: </strong>
                 {decodeURIComponent(correct_answer)}
               </p>
@@ -60,7 +57,7 @@ function Results(props: ResultsIProps) {
           </div>
         );
       })}
-      <div>
+      <div className="Results-start-new-quiz">
         <Button onClick={() => props.navigate && props.navigate("/")}>
           Start New Quiz
         </Button>

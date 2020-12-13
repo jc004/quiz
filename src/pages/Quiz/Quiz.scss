@@ -1,5 +1,19 @@
-.complete {
-  display: flex;
-  justify-content: center;
-  padding: 0 0 64px 0;
+@import "src/assets/styles/sass/utils";
+
+.Quiz {
+  &-complete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 rhythmScale(8) 0;
+  }
+
+  &-loading {
+    color: $primary-color;
+  }
+
+  &-error {
+    color: $danger-color;
+    text-align: center;
+  }
 }

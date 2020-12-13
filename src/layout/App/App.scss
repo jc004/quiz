@@ -22,6 +22,7 @@ body {
 p {
   font-size: $base-font-size;
   line-height: 1.5;
+  margin-top: 0;
 }
 
 .app {
@@ -39,6 +40,7 @@ p {
 
     &-content {
       max-width: 800px;
+      padding: 0 rhythmScale(2);
     }
   }
 }

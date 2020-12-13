@@ -4,29 +4,23 @@ import { RouteComponentProps } from "@reach/router";
 import Question from "../../components/Question/Question";
 import Button from "../../components/Button/Button";
 import { generateQuestions } from "../../store/triviaActions";
+import { QuestionInterface } from "../../store/triviaReducer";
 import "./Quiz.scss";
 
 interface QuizIProps extends RouteComponentProps {}
-interface Question {
-  selectedAnswer: string | undefined;
-}
 
 function Quiz(props: QuizIProps) {
   const dispatch = useDispatch();
   const quizSettings = useSelector((state: any) => state.trivia.quizSettings);
   const questions: [] = useSelector((state: any) => state.trivia.questions);
-  // const answers: [] = useSelector((state: any) => state.trivia.answers).filter(
-  //   (answer: string) => answer !== null || answer !== undefined
-  // );
-  const selectedAnswers = questions.filter(
-    (question: { selectedAnswer: string | undefined }) =>
-      question.selectedAnswer !== undefined
-  );
-  console.log("selectedAnswers", selectedAnswers);
-
   const loading: boolean = useSelector((state: any) => state.trivia.loading);
-  const error: boolean = useSelector((state: any) => state.trivia.error);
-  console.log("questions", questions);
+  const error: { message: string } = useSelector(
+    (state: any) => state.trivia.error
+  );
+
+  const selectedAnswers = questions.filter(
+    (question: QuestionInterface) => question.selectedAnswer !== undefined
+  );
 
   useEffect(() => {
     const { amount, difficulty, type } = quizSettings;
@@ -42,19 +36,28 @@ function Quiz(props: QuizIProps) {
   const hasUnansweredQuestions = selectedAnswers.length !== questions.length;
 
   if (error) {
-    return <h3>Sorry something went wrong</h3>;
+    return (
+      <div className="Quiz-error">
+        <h3>Sorry something went wrong:</h3>
+        <p>{error.message}</p>
+        <p>Please check your internet connection and try again</p>
+        <Button onClick={() => props.navigate && props.navigate("/")}>
+          Try again?
+        </Button>
+      </div>
+    );
   }
 
   if (loading && !error) {
-    return <h3>Loading questions...</h3>;
+    return <h3 className="Quiz-loading">Loading questions...</h3>;
   }
 
   return (
-    <div>
+    <div className="Quiz">
       {questions.map((q, i) => {
         return <Question questionIndex={i} key={i} />;
       })}
-      <div className="complete">
+      <div className="Quiz-complete">
         {hasUnansweredQuestions ? (
           <p>Please answer ALL questions</p>
         ) : (
