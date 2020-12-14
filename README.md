@@ -1,10 +1,10 @@
 ### NEXT STEPS:
 
-- Use the 'categories' api to pull in the available categories so the user and choose one.
+- Use the 'categories' api to pull in the available categories so the user can choose one.
 - Replace 'any' types for actual type definitions or at least 'unknown'.
 - Add some base input components.
-- Define some proper typography variables/styles.
-- Potentially remove redux. It's overkill for this application and there is no real need for global state.
+- Define some typography variables/styles.
+- Potentially remove redux.
 - Increase test coverage.
 - Replace 'React-select' package for custom input (throws warnings).
 
