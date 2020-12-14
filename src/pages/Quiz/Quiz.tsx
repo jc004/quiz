@@ -54,8 +54,14 @@ function Quiz(props: QuizIProps) {
 
   return (
     <div className="Quiz">
-      {questions.map((q, i) => {
-        return <Question questionIndex={i} key={i} />;
+      {questions.map((question: QuestionInterface, index) => {
+        return (
+          <Question
+            question={question}
+            questionIndex={index}
+            key={question.question}
+          />
+        );
       })}
       <div className="Quiz-complete">
         {hasUnansweredQuestions ? (

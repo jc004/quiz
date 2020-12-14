@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "@reach/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { answerQuestion } from "../../store/triviaActions";
 import "./Question.scss";
+import { QuestionInterface } from "../../store/triviaReducer";
 
 interface QuestionIProps extends RouteComponentProps {
+  question: QuestionInterface;
   questionIndex: number;
 }
 
 function Question(props: QuestionIProps) {
   const dispatch = useDispatch();
   const [answers, setAnswers] = useState<string[]>([]);
-
-  const question = useSelector(
-    (state: any) => state.trivia.questions[props.questionIndex]
-  );
+  const { question } = props;
 
   useEffect(() => {
     let answers = [...question.incorrect_answers];

@@ -1,3 +1,13 @@
+### NEXT STEPS:
+
+- Use the 'categories' api to pull in the available categories so the user and choose one.
+- Replace 'any' types for actual type definitions or at least 'unknown'.
+- Add some base input components.
+- Define some proper typography variables/styles.
+- Potentially remove redux. It's overkill for this application and there is no real need for global state.
+- Increase test coverage.
+- Replace 'React-select' package for custom input (throws warnings).
+
 ## Introduction
 
 Quiz is a small application that is using a sample of questions from [Open Trivia Database](https://opentdb.com/) to display list of multiselect trivia questions. Users can start the quiz, answer trivia questions and complete the quiz when all questions are answered.
